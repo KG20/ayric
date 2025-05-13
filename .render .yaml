@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: ayric-web
+    env: docker
+    repo: https://github.com/KG20/ayric
+    branch: master
+    plan: free
