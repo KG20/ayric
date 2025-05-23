@@ -11,3 +11,15 @@ RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|' /et
 
 # Optional: explicitly enable index.php
 RUN echo "DirectoryIndex index.php" >> /etc/apache2/apache2.conf
+
+FROM php:8.2-apache
+
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Install dependencies
+COPY . /var/www/html
+RUN composer install --no-dev
+
+# Apache config
+EXPOSE 80
