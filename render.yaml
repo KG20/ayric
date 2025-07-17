@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: ayric-web
+    env: docker
+    repo: https://github.com/KG20/ayric
+    branch: master
+    plan: free
+
+  - type: cron
+    name: db-backup
+    env: docker
+    schedule: "0 3 * * *" # 3AM daily
+    startCommand: |
+      pg_dump $DATABASE_URL > backup.sql
+      git add backup.sql
+      git commit -m "Autobackup $(date)"
+      git push
+envVars:
+  - key: DB_HOST
+    fromDatabase:
+      name: ayric-db
+      property: host
+  - key: DB_PASS
+    fromDatabase:
+      name: ayric-db
+      property: password
