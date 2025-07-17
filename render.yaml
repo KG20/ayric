@@ -11,9 +11,11 @@ services:
     env: docker
     schedule: "0 3 * * *" # 3AM daily
     startCommand: |
-      pg_dump $DATABASE_URL > backup.sql
-      git add backup.sql
-      git commit -m "Autobackup $(date)"
+      pg_dump $DATABASE_URL > /tmp/backup.sql
+      git config --global user.email "backup@ayric.com"
+      git config --global user.name "Backup Bot"
+      git add /tmp/backup.sql
+      git commit -m "Autobackup $(date +'%Y-%m-%d')"
       git push
 envVars:
   - key: DB_HOST
