@@ -2,3 +2,5 @@
 .env
 *.sql
 *.key
+git_key*
+*.pub

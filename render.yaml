@@ -3,7 +3,7 @@ services:
     name: ayric-web
     env: docker
     repo: https://github.com/KG20/ayric
-    branch: master # Changed from 'main' to match your repo
+    branch: main # Changed from 'main' to match your repo
     plan: free
 
   - type: cron
