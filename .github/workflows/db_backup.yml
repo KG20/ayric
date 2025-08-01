@@ -16,9 +16,9 @@ jobs:
       - name: Test database connection
         run: |
           psql \
-          "host=${{ secrets.DB_HOST }} \
-           user=${{ secrets.DB_USER }} \
-           dbname=ayric" \
+          "host=${{ secrets.DB_HOST }}" \
+          "user=${{ secrets.DB_USER }}" \
+          "dbname=ayric" \
           -c "SELECT 1;"
         env:
           PGPASSWORD: ${{ secrets.DB_PASS }}
