@@ -8,34 +8,27 @@ jobs:
   backup:
     runs-on: ubuntu-latest
     steps:
-      # 1. Install PostgreSQL client
       - name: Install PostgreSQL client
         run: sudo apt-get install -y postgresql-client
 
-      # 2. Test connection (optional debug step)
-      - name: Test database connection
+      - name: Test connection
         run: |
+          PGPASSWORD="${{ secrets.DB_PASS }}" \
           psql \
-          "host=${{ secrets.DB_HOST }}" \
-          "user=${{ secrets.DB_USER }}" \
-          "dbname=ayric" \
+          -h "${{ secrets.DB_HOST }}" \
+          -U "${{ secrets.DB_USER }}" \
+          -d ayric-db \
           -c "SELECT 1;"
-        env:
-          PGPASSWORD: ${{ secrets.DB_PASS }}
 
-      # 3. Dump database (CORE FIX)
       - name: Dump database
         run: |
+          PGPASSWORD="${{ secrets.DB_PASS }}" \
           pg_dump \
-          --host=${{ secrets.DB_HOST }} \
-          --username=${{ secrets.DB_USER }} \
-          --dbname=ayric \
-          --file=backup.sql \
-          --no-password
-        env:
-          PGPASSWORD: ${{ secrets.DB_PASS }}
+          -h "${{ secrets.DB_HOST }}" \
+          -U "${{ secrets.DB_USER }}" \
+          -d ayric-db \
+          -f backup.sql
 
-      # 4. Upload backup
       - name: Upload backup
         uses: actions/upload-artifact@v4
         with:
