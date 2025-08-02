@@ -17,7 +17,7 @@ jobs:
           psql \
           -h "${{ secrets.DB_HOST }}" \
           -U "${{ secrets.DB_USER }}" \
-          -d ayric-db \
+          -d ayric \
           -c "SELECT 1;"
 
       - name: Dump database
@@ -26,7 +26,7 @@ jobs:
           pg_dump \
           -h "${{ secrets.DB_HOST }}" \
           -U "${{ secrets.DB_USER }}" \
-          -d ayric-db \
+          -d ayric \
           -f backup.sql
 
       - name: Upload backup
