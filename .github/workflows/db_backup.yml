@@ -13,12 +13,13 @@ jobs:
 
       - name: Test connection
         run: |
-          PGPASSWORD="${{ secrets.DB_PASS }}" \
           psql \
-          -h "${{ secrets.DB_HOST }}" \
-          -U "${{ secrets.DB_USER }}" \
-          -d ayric \
+          "host=ayric-db-12345.oregon-postgres.render.com" \
+          "user=${{ secrets.DB_USER }}" \
+          "dbname=ayric" \
           -c "SELECT 1;"
+        env:
+          PGPASSWORD: ${{ secrets.DB_PASS }}
 
       - name: Dump database
         run: |
